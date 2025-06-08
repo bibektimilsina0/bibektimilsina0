@@ -29,7 +29,7 @@ function Intro() {
         className="m-4"
       >
         <h1 className="text-2xl md:text-3xl">
-          Full-Stack Web Developer <br /> and Designer,
+          MERN-Stack Web Developer,
         </h1>
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/2"></div>
@@ -47,7 +47,7 @@ function Intro() {
               animate={{ x: 0, opacity: 1 }} 
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              Pokhara, Nepal
+              Kathmandu, Nepal
             </motion.span>
           </div>
         </div>
@@ -61,7 +61,7 @@ function Intro() {
         className="m-4"
       >
         <p className="text-gray-400">
-          With a strong foundation in both frontend and backend technologies, I create web applications that not only look stunning but also deliver seamless user experiences.
+          With a background in Computer Engineering and a strong foundation in both frontend and backend technologies, I create web applications that not only look stunning but also deliver seamless user experiences.
           <br />
           I specialize in React.js, Next.js, Node.js, Express.js, and MongoDB, and I'm dedicated to staying updated with the latest trends in web development. My goal is to contribute innovative solutions to real-world challenges, turning ideas into reality.
         </p>

@@ -64,9 +64,10 @@ function ProjectCard({ project }) {
             </motion.div>
             {/* Modal */}
             {isOpen && (
-                <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="fixed inset-0 flex flex-col md:flex-row items-center justify-center z-50 bg-black bg-opacity-50">
                     <motion.div
-                        className="bg-[#2d3846] p-6 rounded-lg max-w-5xl w-full flex gap-6 relative"
+                        className="bg-[#2d3846] p-4 sm:p-6 rounded-lg w-[95%] max-w-5xl mx-auto flex flex-col md:flex-row gap-6 overflow-y-auto max-h-[90vh] relative"
+     
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -50 }}
@@ -84,7 +85,7 @@ function ProjectCard({ project }) {
                             src={preview}
                             width={660}
                             height={500}
-                            className="rounded-lg object-cover"
+                            className="rounded-lg object-contain w-full md:w-1/2"
                             alt={projectTitle}
                         />
                         <div>
@@ -97,7 +98,7 @@ function ProjectCard({ project }) {
                                     target="_blank"
                                     className="flex items-center bg-yellow-500 text-yellow-900 hover:bg-yellow-400 transition-all p-2 rounded-md"
                                 >
-                                    View Live Demo
+                                    Live Demo
                                     <FontAwesomeIcon icon={faArrowRightToBracket} className="text-[#E94057] ml-2" />
                                 </a>
 
@@ -107,7 +108,7 @@ function ProjectCard({ project }) {
                                     target="_blank"
                                     className="flex items-center bg-yellow-500 text-yellow-900 hover:bg-yellow-400 transition-all p-2 rounded-md"
                                 >
-                                    View Code
+                                    Code
                                     <FontAwesomeIcon icon={faGithub} className="text-[#E94057] ml-2" />
                                 </a>
                             </div>

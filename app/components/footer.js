@@ -16,7 +16,7 @@ function Footer() {
                 </h1>
             </div>
             <p className="text-center text-xs md:text-base mt-4 md:mt-0 text-gray-600">
-                &copy; 2022 Bibek Timilsina. All rights reserved.
+                &copy; {new Date().getFullYear()} Bibek Timilsina. All rights reserved.
             </p>
         </footer>
     );

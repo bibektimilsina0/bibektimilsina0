@@ -6,13 +6,17 @@ import { faFacebook, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-i
 import { motion } from "framer-motion";
 
 const techSkills = [
-    "React",
+    "React.js",
     "Next.js",
     "Node.js",
     "Tailwind CSS",
     "JavaScript",
     "MongoDB",
     "Express",
+    "Rest APIs",
+    "GraphQL",
+    "HTML",
+    "c/c++",
     "Python",
     "Machine Learning",
     "Natural Language Processing",
