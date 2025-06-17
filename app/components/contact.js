@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/app/components/ui/use_toast";  // shadcn/ui's toast
 import emailjs from "emailjs-com";
 import { motion, useAnimation } from "framer-motion";
-
+import { useForm } from "react-hook-form";
 function Contact() {
     const { showToast } = useToast();
     const [formData, setFormData] = useState({
@@ -14,6 +14,9 @@ function Contact() {
         email: '',
         project: ''
     });
+    const {
+        register, handleSubmit, formState: { errors, isSubmitting }, reset
+    } = useForm()
 
     const controls = useAnimation();
     const contactRef = useRef(null);
@@ -25,7 +28,7 @@ function Contact() {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const onSubmit = async (data, e) => {
         e.preventDefault();
 
         try {
@@ -40,6 +43,7 @@ function Contact() {
                     title: "Success 🎉",
                     description: "Message sent successfully!",
                 });
+                reset();
             } else {
                 showToast({
                     title: "Error ❌",
@@ -110,7 +114,7 @@ function Contact() {
                 >
                     <h2 className="text-xl font-bold mb-4">Estimate your project?</h2>
                     <h5 className="text-gray-500 mb-6">Let me know here!</h5>
-                    <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-amber-400">What's your email?</label>
                             <input
@@ -118,10 +122,16 @@ function Contact() {
                                 id="email"
                                 name="email"
                                 placeholder="abc@gmail.com"
-                                className="mt-1 p-2 border rounded-lg w-full"
-                                value={formData.email}
-                                onChange={(e) => handleChange(e)}
+                                className="mt-1 p-2 border rounded-lg w-full text-gray-800"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message: "Invalid email address",
+                                    },
+                                })}
                             />
+                            {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
                         </div>
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-amber-400">What's your Name?</label>
@@ -130,10 +140,17 @@ function Contact() {
                                 id="name"
                                 name="name"
                                 placeholder="Bibek Timilsina"
-                                className="mt-1 p-2 border rounded-lg w-full"
-                                value={formData.name}
-                                onChange={(e) => handleChange(e)}
+                                className="mt-1 p-2 border rounded-lg w-full text-gray-800"
+                                {...register("name",{
+                                    required: "Name is required",
+                                    minLength: {
+                                        value: 2,
+                                        message: "Name must be at least 2 characters",
+                                    },
+                                }
+                                )}
                             />
+                            {errors.name && <p className="text-red-500 text-xs">{errors.name.message}</p>}
                         </div>
                         <div>
                             <label htmlFor="project" className="block text-sm font-medium text-amber-400">Tell me about your Project.</label>
@@ -142,16 +159,23 @@ function Contact() {
                                 name="project"
                                 placeholder="I have a project ........."
                                 className="mt-1 p-2 border rounded-lg w-full h-24 text-gray-800"
-                                value={formData.project}
-                                onChange={(e) => handleChange(e)}
+                                {...register("project", {
+                                    required: "Project description is required",
+                                    minLength: {
+                                        value: 10,
+                                        message: "Project description must be at least 10 characters",
+                                    },
+                                })}
                             />
+                            {errors.project && <p className="text-red-500 text-xs">{errors.project.message}</p>}
                         </div>
                         <button
                             type="submit"
+                            disabled={isSubmitting}
                             className="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-lg font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 active:bg-blue-800"
                         >
                             <FontAwesomeIcon icon={faArrowRight} className="mr-2" />
-                            Send Message
+                            {isSubmitting ? "Sending..." : "Send Message"}
                         </button>
                     </form>
                 </motion.div>
