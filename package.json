@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  
   "dependencies": {
     "@dhaiwat10/react-link-preview": "^1.15.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
