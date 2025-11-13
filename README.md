@@ -22,15 +22,18 @@ Hey there! I'm a passionate full-stack enthusiast with a strong focus on **Next.
 ## 📌 Tech Stack
 
 ### Frontend:
+
 - Next.js
 - React
 - Tailwind CSS
 
 ### Backend:
+
 - Node.js
 - Express.js
 
 ### Databases:
+
 - Firestore
 - MongoDB
 
