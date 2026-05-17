@@ -48,38 +48,38 @@ function ProjectCard({
           className
         )}
       >
-        <div className="grid gap-4">
+        <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
           <Image
             src={thumbnail || "/placeholder.svg"}
             alt={`Screenshot of ${title}`}
-            width={640}
-            height={360}
+            fill
             className={cn(
-              "fill rounded-t-lg transition-transform duration-300 origin-top h-full w-full object-cover",
+              "object-cover transition-transform duration-300 origin-top",
               isHovered ? "scale-105" : "scale-100"
             )}
           />
+        </div>
 
-          {/* Action Buttons Overlay */}
-          <div
-            className={cn(
-              "absolute top-3 right-3 transition-opacity duration-200",
-              isHovered ? "opacity-100 rounded-t-lg" : "opacity-0"
-            )}
-          ></div>
-          <div className="p-6 space-y-4">
-            <TextReveal
-              className="text-xl font-bold group-hover:text-primary transition-colors duration-300"
-              as="h3"
-            >
-              {title}
-            </TextReveal>
-            <TextReveal
-              as="p"
-              className="text-sm text-muted-foreground leading-relaxed line-clamp-2"
-            >
-              {description ?? ""}
-            </TextReveal>
+        {/* Action Buttons Overlay */}
+        <div
+          className={cn(
+            "absolute top-3 right-3 transition-opacity duration-200",
+            isHovered ? "opacity-100 rounded-t-lg" : "opacity-0"
+          )}
+        ></div>
+        <div className="p-6 space-y-4">
+          <TextReveal
+            className="text-xl font-bold group-hover:text-primary transition-colors duration-300 line-clamp-2 h-14 leading-snug flex items-start"
+            as="h3"
+          >
+            {title}
+          </TextReveal>
+          <TextReveal
+            as="p"
+            className="text-sm text-muted-foreground leading-relaxed line-clamp-2"
+          >
+            {description ?? ""}
+          </TextReveal>
 
             <div className="flex flex-wrap gap-2 min-h-20">
               {tags?.map((tag, index) => (
@@ -93,7 +93,6 @@ function ProjectCard({
               ))}
             </div>
           </div>
-        </div>
 
         <Link
           href={href}

@@ -4,33 +4,9 @@ import { connectMongoose } from "@/lib/connecttodb";
 import { ProjectModel } from "@/lib/models/Project";
 import { Project } from "@/types/project";
 import TextReveal from "./fancy/text-reveal";
+import { getProjects } from "@/lib/actions/projects";
 
-async function getProjects() {
-  let projects: Project[] = [];
-  try {
-    await connectMongoose();
-    const projectsData = await ProjectModel.find({})
-      .sort({ id: -1 })
-      .lean()
-      .exec();
 
-    // Convert MongoDB documents to plain objects
-    projects = projectsData.map((project: unknown): Project => {
-      const p = project as Partial<Project> & { _id?: unknown; id?: string };
-      return {
-        ...(p as Project),
-        id: p.id ?? 0,
-        title: p.title ?? "",
-        description: p.description ?? "",
-        _id: p._id ? String(p._id) : "",
-      };
-    });
-    return projects;
-  } catch (error) {
-    console.error("❌ Error fetching projects:", error);
-    return [];
-  }
-}
 
 export default async function ProjectsList() {
   const projects = await getProjects();

@@ -1,14 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 import { ThemeProvider } from "@/components/theme-provider";
+import { ReactQueryProvider } from "@/components/providers";
+import LayoutClient from "@/components/client-layout";
 
 export const metadata: Metadata = {
   title: "Bibek Timilsina | Full Stack Developer",
@@ -109,19 +109,21 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={poppins.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="relative flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Toaster />
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="relative flex min-h-screen flex-col">
+              <LayoutClient>
+                <main className="flex-1">{children}</main>
+                <Toaster />
+              </LayoutClient>
+            </div>
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
