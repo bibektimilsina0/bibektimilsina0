@@ -29,8 +29,6 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
     formState: { errors },
   } = useForm<Omit<Project, "_id" | "id">>({
     defaultValues: {
-      title: project?.title || "",
-      description: project?.description || "",
       projectTitle: project?.projectTitle || "",
       projectDescription: project?.projectDescription || "",
       projectLink: project?.projectLink || "",
@@ -98,7 +96,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label htmlFor="title">Title *</Label>
             <Input
               id="title"
@@ -108,7 +106,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
             {errors.title && (
               <p className="text-xs text-destructive">{errors.title.message}</p>
             )}
-          </div>
+          </div> */}
 
           <div className="space-y-2">
             <Label htmlFor="projectTitle">Project Title (Display Overlay)</Label>
@@ -162,7 +160,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
           </div>
         </div>
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="description">Description *</Label>
           <Textarea
             id="description"
@@ -172,7 +170,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
           {errors.description && (
             <p className="text-xs text-destructive">{errors.description.message}</p>
           )}
-        </div>
+        </div> */}
 
         <div className="space-y-2">
           <Label htmlFor="projectDescription">Project Description (Display Detail)</Label>

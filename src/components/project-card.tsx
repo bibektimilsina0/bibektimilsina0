@@ -45,7 +45,7 @@ function ProjectCard({
         onMouseLeave={() => setIsHovered(false)}
         className={cn(
           "group relative flex w-full max-w-sm mx-auto flex-col justify-between border border-border/50 bg-card hover:shadow-lg hover:border-secondary/40  transition-all duration-300 ease-out cursor-pointer overflow-hidden py-0",
-          className
+          className,
         )}
       >
         <div className="relative w-full h-48 overflow-hidden rounded-t-lg">
@@ -55,7 +55,7 @@ function ProjectCard({
             fill
             className={cn(
               "object-cover transition-transform duration-300 origin-top",
-              isHovered ? "scale-105" : "scale-100"
+              isHovered ? "scale-105" : "scale-100",
             )}
           />
         </div>
@@ -64,12 +64,12 @@ function ProjectCard({
         <div
           className={cn(
             "absolute top-3 right-3 transition-opacity duration-200",
-            isHovered ? "opacity-100 rounded-t-lg" : "opacity-0"
+            isHovered ? "opacity-100 rounded-t-lg" : "opacity-0",
           )}
         ></div>
         <div className="p-6 space-y-4">
           <TextReveal
-            className="text-xl font-bold group-hover:text-primary transition-colors duration-300 line-clamp-2 h-14 leading-snug flex items-start"
+            className="text-xl font-bold group-hover:text-primary transition-colors duration-300 line-clamp-2 h-14"
             as="h3"
           >
             {title}
@@ -81,18 +81,18 @@ function ProjectCard({
             {description ?? ""}
           </TextReveal>
 
-            <div className="flex flex-wrap gap-2 min-h-20">
-              {tags?.map((tag, index) => (
-                <Badge
-                  key={`project-tag_${index}`}
-                  variant="secondary"
-                  className="text-xs h-8 px-2"
-                >
-                  {tag.label}
-                </Badge>
-              ))}
-            </div>
+          <div className="flex flex-wrap gap-2 min-h-20">
+            {tags?.map((tag, index) => (
+              <Badge
+                key={`project-tag_${index}`}
+                variant="secondary"
+                className="text-xs h-8 px-2"
+              >
+                {tag.label}
+              </Badge>
+            ))}
           </div>
+        </div>
 
         <Link
           href={href}
