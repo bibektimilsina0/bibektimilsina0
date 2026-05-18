@@ -159,6 +159,7 @@ import { ModeToggle } from "./theme-toggle-button";
 import { Logo } from "./logo";
 import { motion } from "motion/react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   { name: "About me", href: "/" },
@@ -227,7 +228,7 @@ export default function Navbar({ transition }: { transition: boolean }) {
       initial="center"
       animate={transition ? "topLeft" : "center"}
       transition={{ type: "spring", stiffness: 200, damping: 30 }}
-      className="z-50 w-full"
+      className={cn("z-50 w-full bg-background/90 border-b border-border/40 backdrop-blur-md", transition && "sticky top-0")}
     >
       {/* Background: only visible after transition */}
       <motion.div
