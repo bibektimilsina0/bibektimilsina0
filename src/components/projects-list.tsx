@@ -1,8 +1,5 @@
 import { Separator } from "@/components/ui/separator";
 import ProjectsListClient from "@/components/projects-list-client";
-import { connectMongoose } from "@/lib/connecttodb";
-import { ProjectModel } from "@/lib/models/Project";
-import { Project } from "@/types/project";
 import TextReveal from "./fancy/text-reveal";
 import { getProjects } from "@/lib/actions/projects";
 

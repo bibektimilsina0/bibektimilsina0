@@ -22,6 +22,7 @@ export async function getProjects() {
         title: p.title ?? "",
         description: p.description ?? "",
         _id: p._id ? String(p._id) : "",
+        projectType: p.projectType ?? "personal",
       };
     });
     return projects;
@@ -39,8 +40,11 @@ export async function createProject(data: Omit<Project, "_id" | "id">) {
     const maxProject = await ProjectModel.findOne({}).sort({ id: -1 }).exec();
     const nextId = maxProject ? (Number(maxProject.id) || 0) + 1 : 1;
 
+    // Fallback: Copy projectTitle/projectDescription if standard title/description are empty
     const newProject = new ProjectModel({
       ...data,
+      title: data.title || data.projectTitle || "Untitled Project",
+      description: data.description || data.projectDescription || "No description provided",
       id: nextId,
     });
 
@@ -57,9 +61,19 @@ export async function createProject(data: Omit<Project, "_id" | "id">) {
 export async function updateProject(id: string, data: Partial<Project>) {
   try {
     await connectMongoose();
+
+    // Fallback: Copy projectTitle/projectDescription during updates if standard title/description are empty
+    const updateData = { ...data };
+    if (data.projectTitle && !data.title) {
+      updateData.title = data.projectTitle;
+    }
+    if (data.projectDescription && !data.description) {
+      updateData.description = data.projectDescription;
+    }
+
     const updated = await ProjectModel.findByIdAndUpdate(
       id,
-      { $set: data },
+      { $set: updateData },
       { new: true }
     ).exec();
 

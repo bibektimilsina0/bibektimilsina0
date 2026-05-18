@@ -11,12 +11,17 @@ const ProjectSchema = new Schema(
     projectLink: { type: String },
     githubLink: { type: String },
     preview: { type: String },
-    technologies: { type: String }, // store comma-separated list
+    technologies: { type: String },
+    projectType: {
+      type: String,
+      enum: ["personal", "client", "company"],
+      default: "personal",
+    },
   },
   {
     timestamps: true, // adds createdAt & updatedAt
     versionKey: false,
-  }
+  },
 );
 
 export const ProjectModel =

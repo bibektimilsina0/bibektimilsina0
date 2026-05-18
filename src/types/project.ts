@@ -9,4 +9,5 @@ export interface Project {
   githubLink?: string;
   preview?: string;
   technologies?: string; // comma-separated list, e.g. "React, TypeScript"
+   projectType?: "personal" | "client" | "company";
 }

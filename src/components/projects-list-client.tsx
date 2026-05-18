@@ -2,45 +2,104 @@
 
 import { motion } from "motion/react";
 import ProjectCard from "@/components/project-card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Project } from "@/types/project";
+import { Briefcase, Building2, User } from "lucide-react";
 
 interface ProjectsListClientProps {
   projects: Project[];
 }
 
+interface ProjectSectionProps {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  projects: Project[];
+}
+
+function ProjectSection({
+  title,
+  subtitle,
+  icon,
+  projects,
+}: ProjectSectionProps) {
+  if (projects.length === 0) return null;
+
+  return (
+    <div className="space-y-6 py-6 first:pt-0">
+      {/* Header Container */}
+      <div className="flex items-center gap-3 border-b border-border/40 pb-4">
+        <div className="p-2 bg-primary/5 rounded-lg text-primary border border-primary/10">
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-xl font-bold tracking-tight text-foreground">
+            {title}
+          </h3>
+          <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
+        </div>
+        <div className="ml-auto text-xs font-mono text-muted-foreground bg-secondary/30 px-2.5 py-0.5 rounded-full border border-border/50">
+          {projects.length} {projects.length === 1 ? "project" : "projects"}
+        </div>
+      </div>
+
+      {/* Grid Container */}
+      <motion.div
+        className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.12,
+            },
+          },
+        }}
+      >
+        {projects.map((project) => {
+          // Parse tag labels from comma-separated technologies string
+          const tags = project.technologies
+            ? project.technologies
+                .split(",")
+                .map((tech) => ({ label: tech.trim() }))
+            : [];
+
+          return (
+            <motion.div
+              key={`project_${project._id}`}
+              variants={{
+                hidden: { opacity: 0, y: 25, scale: 0.98 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  transition: { duration: 0.5, ease: "easeOut" },
+                },
+              }}
+            >
+              <ProjectCard
+                title={project.projectTitle || project.title}
+                description={project.projectDescription || project.description}
+                href={`/projects/${project._id}`}
+                tags={tags}
+                thumbnail={project.preview || "/photo.jpg"}
+                projectType={project.projectType}
+                className="h-full hover:shadow-lg transition-all duration-300"
+              />
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function ProjectsListClient({
   projects,
 }: ProjectsListClientProps) {
-  const showCarousel = projects.length > 3;
-
-  // Convert API data to component format
-  const formattedProjects = projects.map((project) => ({
-    url: `/projects/${project._id}`,
-    slugs: [project._id.toString()],
-    data: {
-      title: project.projectTitle || project.title,
-      description: project.projectDescription || project.description,
-      tags: project.technologies
-        ? project.technologies
-            .split(",")
-            .map((tech) => ({ label: tech.trim() }))
-        : [],
-    },
-    links: {
-      project: project.projectLink,
-      github: project.githubLink,
-      preview: project.preview,
-    },
-  }));
-
-  if (formattedProjects.length === 0) {
+  if (projects.length === 0) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -52,97 +111,33 @@ export default function ProjectsListClient({
     );
   }
 
+  // Filter projects by category directly using database properties
+  const clientProjects = projects.filter((p) => p.projectType === "client");
+  const companyProjects = projects.filter((p) => p.projectType === "company");
+  const personalProjects = projects.filter(
+    (p) => p.projectType === "personal" || !p.projectType,
+  );
+
   return (
-    <>
-      {showCarousel ? (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="max-w-6xl xl:max-w-7xl mx-auto"
-        >
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full max-w-sm md:max-w-none"
-          >
-            <CarouselContent className="ml-1">
-              {formattedProjects.map((project, index) => (
-                <CarouselItem
-                  key={`project_${project.slugs[0]}`}
-                  className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      delay: 0.1 * index,
-                      duration: 0.6,
-                      ease: "easeOut",
-                    }}
-                  >
-                    <ProjectCard
-                      title={project.data.title}
-                      href={project.url}
-                      description={project.data.description}
-                      tags={project.data.tags}
-                      thumbnail={project.links.preview || "/photo.jpg"}
-                      className="h-full hover:shadow-lg transition-all duration-300"
-                    />
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex left-2" />
-            <CarouselNext className="hidden md:flex right-2" />
-          </Carousel>
-        </motion.div>
-      ) : (
-        <motion.div
-          className="grid gap-8 sm:grid-cols-1 lg:grid-cols-3"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.4,
-              },
-            },
-          }}
-        >
-          {formattedProjects.map((project) => (
-            <motion.div
-              key={`project_${project.slugs[0]}`}
-              variants={{
-                hidden: { opacity: 0, y: 40, scale: 0.95 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: { duration: 0.6, ease: "easeOut" },
-                },
-              }}
-            >
-              <ProjectCard
-                title={project.data.title}
-                href={project.url}
-                description={project.data.description}
-                tags={project.data.tags}
-                thumbnail={
-                  project.links.preview ||
-                  `/images/projects/${project.slugs[0]}/cover.jpg`
-                }
-                className="h-full hover:shadow-lg transition-all duration-300"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      )}
-    </>
+    <div className="space-y-12">
+      <ProjectSection
+        title="Client Work"
+        subtitle="Commercial projects built for private clients and consulting engagements."
+        icon={<Briefcase className="h-4 w-4" />}
+        projects={clientProjects}
+      />
+      <ProjectSection
+        title="Enterprise & Company Work"
+        subtitle="Core modules, services, and applications designed during corporate employment."
+        icon={<Building2 className="h-4 w-4" />}
+        projects={companyProjects}
+      />
+      <ProjectSection
+        title="Personal & College Works"
+        subtitle="Self-initiated applications, libraries, and experimental software tools."
+        icon={<User className="h-4 w-4" />}
+        projects={personalProjects}
+      />
+    </div>
   );
 }

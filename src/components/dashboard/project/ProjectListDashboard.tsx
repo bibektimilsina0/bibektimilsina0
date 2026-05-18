@@ -18,7 +18,6 @@ import AddNewProject from "./AddNewProject";
 import { toast } from "sonner";
 import {
   Search,
-  ExternalLink,
   Github,
   Trash2,
   FolderKanban,
@@ -28,6 +27,7 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
+
 
 interface ProjectListDashboardProps {
   initialProjects: Project[];
@@ -166,10 +166,16 @@ export default function ProjectListDashboard({
                 </div>
 
                 <CardHeader className="space-y-2 p-5 pb-0">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start justify-between gap-2">
                     <CardTitle className="text-lg font-bold text-foreground line-clamp-1 leading-tight group-hover:text-primary transition-colors duration-300">
                       {displayTitle}
                     </CardTitle>
+                    <Badge
+                      variant={project.projectType || "personal"}
+                      className="text-[10px] font-semibold px-2 py-0.5 rounded-full capitalize shrink-0"
+                    >
+                      {project.projectType || "personal"}
+                    </Badge>
                   </div>
                   <CardDescription className="text-xs text-muted-foreground flex items-center gap-1 font-mono">
                     <Sparkles className="h-3 w-3 text-primary/70" />

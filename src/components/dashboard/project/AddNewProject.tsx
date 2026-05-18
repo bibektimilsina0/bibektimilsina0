@@ -35,6 +35,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
       githubLink: project?.githubLink || "",
       preview: project?.preview || "",
       technologies: project?.technologies || "",
+      projectType: project?.projectType || "personal",
     },
   });
 
@@ -52,7 +53,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
           toast.success(
             isEdit
               ? "Project updated successfully!"
-              : "Project created successfully!"
+              : "Project created successfully!",
           );
           setIsOpen(false);
           if (!isEdit) {
@@ -86,7 +87,11 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
         )
       }
       header={{
-        icon: isEdit ? <Pencil className="h-5 w-5" /> : <Plus className="h-5 w-5" />,
+        icon: isEdit ? (
+          <Pencil className="h-5 w-5" />
+        ) : (
+          <Plus className="h-5 w-5" />
+        ),
         title: isEdit ? "Edit Project" : "Add New Project",
         description: isEdit
           ? "Update your project details below."
@@ -109,12 +114,28 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
           </div> */}
 
           <div className="space-y-2">
-            <Label htmlFor="projectTitle">Project Title (Display Overlay)</Label>
+            <Label htmlFor="projectTitle">
+              Project Title (Display Overlay)
+            </Label>
             <Input
               id="projectTitle"
               placeholder="e.g. My Awesome Portfolio"
               {...register("projectTitle")}
             />
+          </div>
+          <div className="space-y-2 col-span-2 md:col-span-1">
+            <Label htmlFor="projectType">Project Type *</Label>
+            <select
+              id="projectType"
+              className="flex h-9 w-full rounded-md border border-input bg-card px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              {...register("projectType", {
+                required: "Project type is required",
+              })}
+            >
+              <option value="personal">Personal Project</option>
+              <option value="client">Client Project</option>
+              <option value="company">Company Project</option>
+            </select>
           </div>
         </div>
 
@@ -173,7 +194,9 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
         </div> */}
 
         <div className="space-y-2">
-          <Label htmlFor="projectDescription">Project Description (Display Detail)</Label>
+          <Label htmlFor="projectDescription">
+            Project Description (Display Detail)
+          </Label>
           <Textarea
             id="projectDescription"
             placeholder="Detailed description to display to users..."

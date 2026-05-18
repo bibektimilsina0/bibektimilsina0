@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 
+
 interface Project {
   title: string;
   description?: string;
@@ -17,7 +18,7 @@ interface Project {
   website?: string;
   github?: string;
   tags?: { label: string }[];
-  // thumbnail: string;
+  projectType?: "personal" | "client" | "company";
 }
 interface ProjectCardProps extends Project {
   href: string;
@@ -32,6 +33,7 @@ function ProjectCard({
   thumbnail,
   tags,
   className,
+  projectType = "personal",
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -58,6 +60,13 @@ function ProjectCard({
               isHovered ? "scale-105" : "scale-100",
             )}
           />
+          {/* Project Type Badge */}
+          <Badge
+            variant={projectType}
+            className="absolute top-3 right-3 text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded-full backdrop-blur-xs shadow-xs"
+          >
+            {projectType}
+          </Badge>
         </div>
 
         {/* Action Buttons Overlay */}
