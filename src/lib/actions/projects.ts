@@ -32,7 +32,7 @@ export async function getProjects() {
   }
 }
 
-export async function createProject(data: Omit<Project, "_id" | "id">) {
+export async function createProject(data: Omit<Project, "_id">) {
   try {
     await connectMongoose();
     

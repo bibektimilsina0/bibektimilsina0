@@ -27,8 +27,9 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Omit<Project, "_id" | "id">>({
+  } = useForm<Omit<Project, "_id">>({
     defaultValues: {
+      id: project?.id ?? undefined,
       projectTitle: project?.projectTitle || "",
       projectDescription: project?.projectDescription || "",
       projectLink: project?.projectLink || "",
@@ -39,7 +40,7 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
     },
   });
 
-  const onSubmit = async (data: Omit<Project, "_id" | "id">) => {
+  const onSubmit = async (data: Omit<Project, "_id">) => {
     startTransition(async () => {
       try {
         let res;
@@ -137,6 +138,15 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
               <option value="company">Company Project</option>
             </select>
           </div>
+<div className="space-y-2">
+  <Label htmlFor="id">Order ID (optional)</Label>
+  <Input
+    id="id"
+    type="number"
+    placeholder="e.g. 10"
+    {...register("id", { valueAsNumber: true })}
+  />
+</div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
