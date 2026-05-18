@@ -2,7 +2,8 @@ import HeaderSection from "@/components/dashboard/HeaderSection";
 import AddNewProject from "@/components/dashboard/project/AddNewProject";
 import ProjectListDashboard from "@/components/dashboard/project/ProjectListDashboard";
 import { getProjects } from "@/lib/actions/projects";
-
+// app/dashboard/project/page.tsx (or layout.tsx)
+export const dynamic = "force-dynamic";
 export default async function ProjectManagementPage() {
   const projects = await getProjects();
 
@@ -21,4 +22,3 @@ export default async function ProjectManagementPage() {
     </div>
   );
 }
-

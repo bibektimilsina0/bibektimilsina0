@@ -8,7 +8,6 @@ const poppins = Poppins({
 });
 import { ThemeProvider } from "@/components/theme-provider";
 import { ReactQueryProvider } from "@/components/providers";
-import LayoutClient from "@/components/client-layout";
 
 export const metadata: Metadata = {
   title: "Bibek Timilsina | Full Stack Developer",
@@ -117,10 +116,10 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <div className="relative flex min-h-screen flex-col">
-              <LayoutClient>
+              {/* <LayoutClient> */}
                 <main className="flex-1">{children}</main>
                 <Toaster />
-              </LayoutClient>
+              {/* </LayoutClient> */}
             </div>
           </ThemeProvider>
         </ReactQueryProvider>
