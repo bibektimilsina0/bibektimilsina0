@@ -75,7 +75,7 @@ function WorkExperience() {
         {/* Experience Timeline */}
         <div className="relative w-full max-w-6xl mx-auto">
           {/* Timeline Line */}
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-border md:left-1/2 md:-translate-x-px" />
+          <div className="absolute left-2 top-0 bottom-0 w-px bg-border md:left-1/2 md:-translate-x-px" />
 
           {workExperience.map((experience, index) => (
             <motion.div
@@ -95,18 +95,18 @@ function WorkExperience() {
               }`}
             >
               {/* Timeline Dot */}
-              <div className="absolute left-4 top-8 h-3 w-3 rounded-full bg-primary border-4 border-background md:left-1/2 md:-translate-x-1/2 z-10" />
+              <div className="absolute left-2 top-8 h-3 w-3 rounded-full bg-primary border-4 border-background md:left-1/2 md:-translate-x-1/2 z-10" />
 
               {/* Content */}
               <div
                 className={`w-full md:w-1/2 md:max-w-lg ${
                   index % 2 === 0
-                    ? "pl-12 md:pl-0 md:pr-8"
-                    : "pl-12 md:pl-8 md:pr-0"
+                    ? "pl-8 md:pl-0 md:pr-8"
+                    : "pl-8 md:pl-8 md:pr-0"
                 }`}
               >
                 <Card className="hover:shadow-lg transition-shadow duration-300">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     {/* Company & Position */}
                     <div className="mb-4">
                       <div className="flex items-center gap-2 mb-2">

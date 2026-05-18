@@ -25,10 +25,10 @@ function ProjectSection({
   if (projects.length === 0) return null;
 
   return (
-    <div className="space-y-6 py-6 first:pt-0">
+    <div className="space-y-6 py-6 first:pt-0 ">
       {/* Header Container */}
       <div className="flex items-center gap-3 border-b border-border/40 pb-4">
-        <div className="p-2 bg-primary/5 rounded-lg text-primary border border-primary/10">
+        <div className="bg-primary/5 rounded-lg text-primary border border-primary/10">
           {icon}
         </div>
         <div>
