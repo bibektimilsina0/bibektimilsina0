@@ -154,7 +154,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { ModeToggle } from "./theme-toggle-button";
 import { Logo } from "./logo";
 import { motion } from "motion/react";
@@ -228,7 +235,10 @@ export default function Navbar({ transition }: { transition: boolean }) {
       initial="center"
       animate={transition ? "topLeft" : "center"}
       transition={{ type: "spring", stiffness: 200, damping: 30 }}
-      className={cn("z-50 w-full bg-background/90 border-b border-border/40 backdrop-blur-md", transition && "sticky top-0")}
+      className={cn(
+        "z-50 w-full bg-background/90 border-b border-border/40 backdrop-blur-md",
+        transition && "sticky top-0",
+      )}
     >
       {/* Background: only visible after transition */}
       <motion.div
@@ -302,14 +312,22 @@ export default function Navbar({ transition }: { transition: boolean }) {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="pr-0">
-              <Link
-                href="/"
-                className="flex items-center space-x-2 mb-8 pl-4"
-                onClick={() => setIsOpen(false)}
-              >
-                <Logo size="xs" />
-              </Link>
+            <SheetContent side="left" className="py-4">
+              <SheetHeader>
+                <SheetTitle>
+                  <Link
+                    href="/"
+                    className="flex items-center -ml-1"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Logo size="xs" />
+                  </Link>
+                </SheetTitle>
+                <SheetDescription className="sr-only">
+                  mobile menu
+                </SheetDescription>
+              </SheetHeader>
+
               <nav className="flex flex-col space-y-4 pl-4">
                 {navigation.map((item) => (
                   <Link

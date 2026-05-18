@@ -44,7 +44,7 @@ function Footer() {
         {/* Main Footer Content */}
         <div className="flex flex-col space-y-8">
           {/* Top Section - Logo, Navigation, Social Icons */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <div className="flex flex-col lg:flex-row  items-start lg:items-center lg:justify-between gap-8">
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -98,7 +98,7 @@ function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="flex flex-wrap justify-center gap-6 lg:gap-8"
+              className="flex flex-wrap justify-center gap-4 lg:gap-8"
             >
               {navigationLinks.map((link) => (
                 <Link
@@ -148,7 +148,7 @@ function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-center md:text-left"
+            className="flex flex-col md:flex-row items-start md:items-center md:justify-between gap-4 text-center md:text-left"
           >
             <p className="text-sm text-muted-foreground">
               Thanks for scrolling,{" "}
