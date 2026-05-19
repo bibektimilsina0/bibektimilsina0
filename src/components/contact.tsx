@@ -79,7 +79,7 @@ function Contact() {
         "portfolio", // EmailJS service ID
         "template_qtrgfft", // EmailJS template ID
         templateParams,
-        "ar7m2B4_1vn5GTQUN" // EmailJS user ID
+        "ar7m2B4_1vn5GTQUN", // EmailJS user ID
       );
       console.log("EmailJS response:", response);
       if (response.status === 200) {
@@ -98,15 +98,17 @@ function Contact() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="px-4 py-12"
+      viewport={{ once: true }}
+      className="py-16 w-full"
       id="contact"
     >
-      <div className=" mx-auto max-w-7xl space-y-12">
+      <div className="px-4 w-full">
         {/* Section Header */}
         <motion.div
-          initial={{ x: -30, opacity: 0 }}
+          initial={{ x: 0, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
+          viewport={{ once: true }}
         >
           <TextReveal
             as="p"
@@ -120,7 +122,7 @@ function Contact() {
         <div className="grid gap-12 lg:grid-cols-2">
           {/* Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="space-y-8"
@@ -173,7 +175,7 @@ function Contact() {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <Card>
-              <CardContent className="p-8">
+              <CardContent>
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
