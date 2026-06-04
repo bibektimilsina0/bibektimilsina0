@@ -5,7 +5,9 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Github, Linkedin, Facebook, Mail } from "lucide-react";
+import { SocialLinks } from "@/types/content";
+import { SOCIAL_PLATFORMS, socialHref } from "@/lib/icon-map";
+import { DEFAULT_HERO } from "@/lib/defaults";
 
 const navigationLinks = [
   { name: "About me", href: "#about" },
@@ -14,30 +16,16 @@ const navigationLinks = [
   { name: "Contact", href: "#contact" },
 ];
 
-const socialLinks = [
-  {
-    icon: Github,
-    href: "https://github.com/bibektimilsina0",
-    label: "GitHub",
-  },
-  {
-    icon: Linkedin,
-    href: "https://www.linkedin.com/in/bibek-timilsina-6a5477253/",
-    label: "LinkedIn",
-  },
-  {
-    icon: Facebook,
-    href: "https://www.facebook.com/bibek.timilsina.568",
-    label: "Facebook",
-  },
-  {
-    icon: Mail,
-    href: "mailto:bibektimilsina@gmail.com",
-    label: "Email",
-  },
-];
+function Footer({ social }: { social?: SocialLinks }) {
+  const links = social ?? DEFAULT_HERO.social;
+  const socialLinks = SOCIAL_PLATFORMS.filter(
+    (p) => links[p.key] && links[p.key]!.trim() !== "",
+  ).map((p) => ({
+    icon: p.icon,
+    label: p.label,
+    href: socialHref(p.key, links[p.key] as string),
+  }));
 
-function Footer() {
   return (
     <footer className="border-t py-12">
       <div className="max-w-7xl mx-auto px-4">

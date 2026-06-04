@@ -5,12 +5,15 @@ import Contact from "@/components/contact";
 import TechStack from "@/components/tech-stack";
 import Footer from "@/components/footer";
 import AnimatedLandingPage from "@/components/ui/animated-landing-page";
+import { getHero } from "@/lib/actions/hero";
 
 // app/page.tsx
 export const dynamic = "force-dynamic";
-export default function Home() {
+export default async function Home() {
+  const hero = await getHero();
+
   return (
-    <AnimatedLandingPage>
+    <AnimatedLandingPage hero={hero}>
       <div className="flex min-h-screen items-center justify-center bg-background font-sans max-w-7xl mx-auto">
         <main className="flex min-h-screen w-full flex-col items-center justify-between py-12  bg-background sm:items-start">
           <Intro />
@@ -22,7 +25,7 @@ export default function Home() {
           {/* <CVDownload /> */}
         </main>
       </div>
-      <Footer />
+      <Footer social={hero.social} />
     </AnimatedLandingPage>
   );
 }

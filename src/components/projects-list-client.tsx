@@ -27,7 +27,7 @@ function ProjectSection({
   return (
     <div className="space-y-6 py-6 first:pt-0 ">
       {/* Header Container */}
-      <div className="flex items-center gap-3 border-b border-border/40 pb-4">
+      <div className="flex flex-wrap items-center gap-3 border-b border-border/40 pb-4">
         <div className="bg-primary/5 rounded-lg text-primary border border-primary/10 hidden md:block">
           {icon}
         </div>

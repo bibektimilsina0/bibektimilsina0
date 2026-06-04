@@ -8,8 +8,8 @@ import { getProjects } from "@/lib/actions/projects";
 export default async function ProjectsList() {
   const projects = await getProjects();
   return (
-    <section className="px-4 py-12" id="projects">
-      <div className="mx-auto max-w-7xl space-y-12">
+    <section className="w-full px-4 py-12 sm:py-16" id="projects">
+      <div className="mx-auto max-w-7xl space-y-10 sm:space-y-12">
         {/* Section Header */}
         <div>
           <TextReveal

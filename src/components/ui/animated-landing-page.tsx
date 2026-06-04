@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Navbar from "../navbar";
 import Landing from "../landing";
+import { Hero } from "@/types/content";
 
 const CONTENT_VARIANTS = {
   hidden: {
@@ -16,7 +17,13 @@ const CONTENT_VARIANTS = {
   },
 } as const;
 
-export default function HomePage({ children }: { children?: React.ReactNode }) {
+export default function HomePage({
+  children,
+  hero,
+}: {
+  children?: React.ReactNode;
+  hero: Hero;
+}) {
   const [transition, setTransition] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -67,7 +74,7 @@ export default function HomePage({ children }: { children?: React.ReactNode }) {
               animate={transition ? "visible" : "hidden"}
               className="w-full"
             >
-              <Landing key={String(transition)} />
+              <Landing key={String(transition)} hero={hero} />
             </motion.div>
           </div>
         )}

@@ -15,7 +15,15 @@ import Image from "next/image";
 import { useLogout } from "@/hooks/mutations/useAuth";
 import { useUserProfile } from "@/hooks/queries/auth";
 import { NavMain } from "./nav-main";
-import { File, LayoutDashboard } from "lucide-react";
+import {
+  Briefcase,
+  File,
+  Home,
+  LayoutDashboard,
+  Layers,
+  Mail,
+  UserRound,
+} from "lucide-react";
 import { NavUser } from "./nav-user";
 import { SidebarSkeleton } from "./SidebarSkeleton";
 import { HoverPrefetchLink } from "../hover-prefetch";
@@ -63,7 +71,12 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     },
     adminNav: [
       { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+      { title: "Hero", url: "/dashboard/hero", icon: Home },
+      { title: "Introduction", url: "/dashboard/introduction", icon: UserRound },
       { title: "Projects", url: "/dashboard/project", icon: File },
+      { title: "Tech Stack", url: "/dashboard/tech-stack", icon: Layers },
+      { title: "Experience", url: "/dashboard/experience", icon: Briefcase },
+      { title: "Contact", url: "/dashboard/contact", icon: Mail },
     ],
   };
 
