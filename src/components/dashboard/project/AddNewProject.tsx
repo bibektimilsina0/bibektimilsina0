@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import ImageUpload from "@/components/dashboard/ImageUpload";
 import { createProject, updateProject } from "@/lib/actions/projects";
 import { Project } from "@/types/project";
 import { toast } from "sonner";
@@ -26,6 +28,8 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<Omit<Project, "_id">>({
     defaultValues: {
@@ -37,8 +41,12 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
       preview: project?.preview || "",
       technologies: project?.technologies || "",
       projectType: project?.projectType || "personal",
+      active: project?.active ?? true,
     },
   });
+
+  const preview = watch("preview");
+  const active = watch("active");
 
   const onSubmit = async (data: Omit<Project, "_id">) => {
     startTransition(async () => {
@@ -171,24 +179,19 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="preview">Preview Image URL</Label>
-            <Input
-              id="preview"
-              placeholder="https://example.com/preview.png"
-              {...register("preview")}
-            />
-          </div>
+        <ImageUpload
+          label="Preview Image"
+          value={preview}
+          onChange={(url) => setValue("preview", url)}
+        />
 
-          <div className="space-y-2">
-            <Label htmlFor="technologies">Technologies (comma separated)</Label>
-            <Input
-              id="technologies"
-              placeholder="React, Next.js, TailwindCSS"
-              {...register("technologies")}
-            />
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="technologies">Technologies (comma separated)</Label>
+          <Input
+            id="technologies"
+            placeholder="React, Next.js, TailwindCSS"
+            {...register("technologies")}
+          />
         </div>
 
         {/* <div className="space-y-2">
@@ -211,6 +214,24 @@ export default function AddNewProject({ project }: AddNewProjectProps) {
             id="projectDescription"
             placeholder="Detailed description to display to users..."
             {...register("projectDescription")}
+          />
+        </div>
+
+        <div className="flex items-center justify-between rounded-lg border border-border p-3">
+          <div className="space-y-0.5">
+            <Label htmlFor="active">
+              {active ? "Active" : "Inactive"}
+            </Label>
+            <p className="text-xs text-muted-foreground">
+              {active
+                ? "This project is visible on your public portfolio."
+                : "Hidden from your public portfolio."}
+            </p>
+          </div>
+          <Switch
+            id="active"
+            checked={!!active}
+            onCheckedChange={(checked) => setValue("active", checked)}
           />
         </div>
 

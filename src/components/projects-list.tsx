@@ -6,7 +6,8 @@ import { getProjects } from "@/lib/actions/projects";
 
 
 export default async function ProjectsList() {
-  const projects = await getProjects();
+  // Public portfolio shows only active projects.
+  const projects = await getProjects(true);
   return (
     <section className="w-full px-4 py-12 sm:py-16" id="projects">
       <div className="mx-auto max-w-7xl space-y-10 sm:space-y-12">

@@ -10,4 +10,5 @@ export interface Project {
   preview?: string;
   technologies?: string; // comma-separated list, e.g. "React, TypeScript"
    projectType?: "personal" | "client" | "company";
+  active?: boolean; // when false, hidden from the public portfolio
 }

@@ -141,7 +141,9 @@ export default function ProjectListDashboard({
             return (
               <Card
                 key={project._id}
-                className="group relative flex flex-col justify-between border-border/50 bg-card hover:border-primary/20 hover:shadow-md transition-all duration-300 overflow-hidden py-0"
+                className={`group relative flex flex-col justify-between border-border/50 bg-card hover:border-primary/20 hover:shadow-md transition-all duration-300 overflow-hidden py-0 ${
+                  project.active === false ? "opacity-60" : ""
+                }`}
               >
                 {/* Optional Image Preview / Visual Gradient Container */}
                 <div className="relative aspect-video w-full overflow-hidden border-b border-border/50 bg-muted flex items-center justify-center">
@@ -163,6 +165,13 @@ export default function ProjectListDashboard({
                   <div className="absolute top-3 left-3 bg-background/80 backdrop-blur-xs text-xs font-semibold px-2 py-0.5 rounded-full border border-border/50 text-muted-foreground shadow-xs">
                     #{project.id}
                   </div>
+
+                  {/* Active / Inactive status */}
+                  {project.active === false && (
+                    <div className="absolute top-3 right-3 bg-destructive/90 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-xs">
+                      Inactive
+                    </div>
+                  )}
                 </div>
 
                 <CardHeader className="space-y-2 p-5 pb-0">

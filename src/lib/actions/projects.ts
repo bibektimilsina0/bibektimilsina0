@@ -5,10 +5,12 @@ import { connectMongoose } from "../connecttodb";
 import { ProjectModel } from "../models/Project";
 import { revalidatePath } from "next/cache";
 
-export async function getProjects() {
+export async function getProjects(activeOnly = false) {
   try {
     await connectMongoose();
-    const projectsData = await ProjectModel.find({})
+    // Treat a missing `active` field as active (legacy projects).
+    const filter = activeOnly ? { active: { $ne: false } } : {};
+    const projectsData = await ProjectModel.find(filter)
       .sort({ id: -1 })
       .lean()
       .exec();
@@ -23,6 +25,7 @@ export async function getProjects() {
         description: p.description ?? "",
         _id: p._id ? String(p._id) : "",
         projectType: p.projectType ?? "personal",
+        active: p.active ?? true,
       };
     });
     return projects;

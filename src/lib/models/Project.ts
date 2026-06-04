@@ -17,6 +17,7 @@ const ProjectSchema = new Schema(
       enum: ["personal", "client", "company"],
       default: "personal",
     },
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: true, // adds createdAt & updatedAt
