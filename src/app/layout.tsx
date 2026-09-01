@@ -8,6 +8,7 @@ const poppins = Poppins({
 });
 import { ThemeProvider } from "@/components/theme-provider";
 import { ReactQueryProvider } from "@/components/providers";
+import { ReliefBanner } from "@/components/relief-banner";
 
 export const metadata: Metadata = {
   title: "Bibek Timilsina | Full Stack Developer",
@@ -115,10 +116,19 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="relative flex min-h-screen flex-col">
+            <ReliefBanner />
+            <div
+              className="relative flex min-h-screen flex-col"
+              style={{ paddingBottom: "var(--relief-banner-height, 0px)" }}
+            >
               {/* <LayoutClient> */}
+              
                 <main className="flex-1">{children}</main>
-                <Toaster />
+                <Toaster
+                  offset={{
+                    bottom: "calc(var(--relief-banner-height, 0px) + 24px)",
+                  }}
+                />
               {/* </LayoutClient> */}
             </div>
           </ThemeProvider>
