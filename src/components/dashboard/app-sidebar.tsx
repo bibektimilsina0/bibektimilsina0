@@ -19,6 +19,7 @@ import {
   Briefcase,
   File,
   Home,
+  Inbox,
   LayoutDashboard,
   Layers,
   Mail,
@@ -77,6 +78,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       { title: "Tech Stack", url: "/dashboard/tech-stack", icon: Layers },
       { title: "Experience", url: "/dashboard/experience", icon: Briefcase },
       { title: "Contact", url: "/dashboard/contact", icon: Mail },
+      { title: "Messages", url: "/dashboard/messages", icon: Inbox },
     ],
   };
 

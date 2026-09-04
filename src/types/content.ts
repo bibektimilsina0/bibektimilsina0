@@ -39,6 +39,18 @@ export interface ContactInfo {
   location: string;
 }
 
+// A submission from the public contact form. Read-only in the dashboard —
+// created by /api/contact, never edited.
+export interface ContactMessage {
+  _id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
 // --- Collections (many documents, ordered by numeric id) ---
 
 export interface Experience {

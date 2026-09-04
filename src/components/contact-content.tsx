@@ -2,11 +2,9 @@
 
 import { motion } from "motion/react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import emailjs from "emailjs-com";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +21,7 @@ import {
 import Link from "next/link";
 import TextReveal from "./fancy/text-reveal";
 import { ContactInfo } from "@/types/content";
+import { useCreateContactMessage } from "@/hooks/mutations/useContact";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -71,34 +70,17 @@ export default function ContactContent({ contact }: { contact: ContactInfo }) {
     },
   });
 
+  const createContact = useCreateContactMessage();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // EmailJS configuration
-      const templateParams = {
-        name: values.name,
-        email: values.email,
-        subject: values.subject,
-        message: values.message || "",
-      };
-
-      const response = await emailjs.send(
-        "portfolio", // EmailJS service ID
-        "template_qtrgfft", // EmailJS template ID
-        templateParams,
-        "ar7m2B4_1vn5GTQUN", // EmailJS user ID
-      );
-      console.log("EmailJS response:", response);
-      if (response.status === 200) {
-        toast.success("Message sent successfully! 🎉");
-        form.reset();
-      } else {
-        throw new Error("Failed to send message");
-      }
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to send message. Please try again! ❌");
+      await createContact.mutateAsync(values);
+      form.reset();
+    } catch {
+      /* errors surfaced via mutation toast */
     }
   }
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -257,12 +239,10 @@ export default function ContactContent({ contact }: { contact: ContactInfo }) {
                     <Button
                       type="submit"
                       className="w-full group"
-                      disabled={form.formState.isSubmitting}
+                      disabled={createContact.isPending}
                     >
                       <Send className="mr-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      {form.formState.isSubmitting
-                        ? "Sending..."
-                        : "Send Message"}
+                      {createContact.isPending ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
                 </Form>
