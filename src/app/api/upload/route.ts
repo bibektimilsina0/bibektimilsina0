@@ -1,16 +1,24 @@
 // src/app/api/upload/route.ts
-// Admin-only image upload. Saves files under public/uploads and returns the
-// public path. NOTE: local disk persists in dev / self-hosting, but NOT on
-// serverless hosts (e.g. Vercel) across redeploys — use cloud storage there.
+// Admin-only image upload. Files go to Cloudinary and the route returns the
+// hosted secure_url. Local disk is NOT used: serverless hosts mount the app
+// read-only, so writing into public/uploads there fails with EROFS.
+// Existing /uploads/* paths already stored in the DB keep working — they are
+// still served from the committed public/ folder.
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import { isCloudinaryConfigured, uploadImage } from "@/lib/cloudinary";
 
 export const runtime = "nodejs";
 
-const MAX_BYTES = 5 * 1024 * 1024; // 5MB
+const MAX_BYTES = 8 * 1024 * 1024; // 8MB
+const ALLOWED = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+  "image/gif",
+];
 
 export async function POST(req: NextRequest) {
   // Only authenticated (admin) users may upload.
@@ -19,44 +27,43 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  if (!isCloudinaryConfigured()) {
+    return NextResponse.json(
+      {
+        error:
+          "Image uploads are not configured. Set the CLOUDINARY_* environment variables.",
+      },
+      { status: 503 },
+    );
+  }
+
   try {
     const formData = await req.formData();
     const file = formData.get("file");
+    const folder = String(formData.get("folder") || "portfolio/uploads");
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
-    if (!file.type.startsWith("image/")) {
+    if (!ALLOWED.includes(file.type)) {
       return NextResponse.json(
-        { error: "Only image files are allowed" },
+        { error: "Unsupported file type. Use JPEG, PNG, WebP, AVIF or GIF." },
         { status: 400 },
       );
     }
     if (file.size > MAX_BYTES) {
       return NextResponse.json(
-        { error: "File too large (max 5MB)" },
+        { error: "File is too large. The maximum size is 8MB." },
         { status: 400 },
       );
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
+    const result = await uploadImage(file, folder);
 
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await mkdir(uploadsDir, { recursive: true });
-
-    const ext = (path.extname(file.name) || ".png").toLowerCase();
-    const base =
-      path
-        .basename(file.name, path.extname(file.name))
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "")
-        .slice(0, 40) || "image";
-    const filename = `${Date.now()}-${base}${ext}`;
-
-    await writeFile(path.join(uploadsDir, filename), buffer);
-
-    return NextResponse.json({ url: `/uploads/${filename}` });
+    return NextResponse.json({
+      url: result.secure_url,
+      publicId: result.public_id,
+    });
   } catch (error) {
     console.error("❌ Upload error:", error);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
